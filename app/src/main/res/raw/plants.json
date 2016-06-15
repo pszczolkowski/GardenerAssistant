@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "Pomidor",
     "icon": "tomato",
     "actions": [
@@ -26,6 +27,7 @@
     ]
   },
   {
+    "id": 2,
     "name": "Rzodkiew",
     "icon": "radish",
     "actions": [
@@ -44,6 +46,7 @@
     ]
   },
   {
+    "id": 3,
     "name": "Malina",
     "icon": "raspberry",
     "perennial": true,
