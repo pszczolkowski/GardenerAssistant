@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import pl.weeia.gardenerassistant.activity.plantschoice.PlantsChoiceActivity;
+import pl.weeia.gardenerassistant.store.SelectedPlantsStore;
 
 public class ActionsActivity extends AppCompatActivity {
 
@@ -29,8 +30,7 @@ public class ActionsActivity extends AppCompatActivity {
 	}
 
 	private boolean userHasNotSelectedAnyPlants() {
-		// TODO
-		return true;
+		return new SelectedPlantsStore(this).isEmpty();
 	}
 
 	private void displayPlantsChoice() {
