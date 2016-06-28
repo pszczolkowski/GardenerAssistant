@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "name": "Pomidor",
+    "icon": "tomato",
+    "actions": [
+      {
+        "name": "Podlać",
+        "cyclic": true,
+        "repeat": "daily",
+        "period": [
+          {
+            "from": "01.06",
+            "to": "15.07"
+          }
+        ]
+      },
+      {
+        "name": "Opryskać",
+        "period": [
+          {
+            "from": "01.05",
+            "to": "14.05"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Rzodkiew",
+    "icon": "radish",
+    "actions": [
+      {
+        "name": "Przykryć folią ochronną",
+        "conditions": [
+          "temperature<0"
+        ],
+        "period": [
+          {
+            "from": "01.05",
+            "to": "30.09"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Malina",
+    "icon": "raspberry",
+    "perennial": true,
+    "actions": [
+      {
+        "name": "Przyciąc",
+        "period": [
+          {
+            "from": "01.05",
+            "to": "14.05"
+          }
+        ]
+      }
+    ]
+  }
+]
