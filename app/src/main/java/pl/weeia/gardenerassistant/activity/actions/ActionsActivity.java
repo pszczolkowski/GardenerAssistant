@@ -1,4 +1,4 @@
-package pl.weeia.gardenerassistant;
+package pl.weeia.gardenerassistant.activity.actions;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import pl.weeia.gardenerassistant.R;
 import pl.weeia.gardenerassistant.activity.actions.ActionsListAdapter;
 import pl.weeia.gardenerassistant.activity.plantschoice.PlantsChoiceActivity;
 import pl.weeia.gardenerassistant.model.Action;
