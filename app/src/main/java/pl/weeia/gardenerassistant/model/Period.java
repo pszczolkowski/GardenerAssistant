@@ -22,4 +22,17 @@ public class Period {
 		String[] stringParts = string.split("\\.");
 		return new YearlessDate(Integer.parseInt(stringParts[0], 10), Integer.parseInt(stringParts[1], 10));
 	}
+
+	public boolean startsBefore(Period period) {
+		return from.isBefore(period.from);
+	}
+
+	public boolean isBetween(Calendar start, Calendar end) {
+		if (from.isBefore(start)) {
+			return to.isAfterOrEqual(start);
+		} else {
+			return from.isBeforeOrEqual(end);
+		}
+	}
+
 }
