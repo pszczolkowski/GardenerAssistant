@@ -3,6 +3,8 @@ package pl.weeia.gardenerassistant.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.apache.commons.lang3.Validate;
+
 import java.util.Calendar;
 
 import pl.weeia.gardenerassistant.util.YearlessDate;
@@ -14,6 +16,9 @@ public class Period {
 
 	@JsonCreator
 	public Period(@JsonProperty("from") String from, @JsonProperty("to") String to) {
+		Validate.matchesPattern(from, "^[0-3][0-9]\\.[0-3][0-9]$", "Invalid date format");
+		Validate.matchesPattern(to, "^[0-3][0-9]\\.[0-3][0-9]$", "Invalid date format");
+
 		this.from = stringToDate(from);
 		this.to = stringToDate(to);
 	}
