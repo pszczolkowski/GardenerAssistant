@@ -14,9 +14,19 @@ import java.util.List;
 import pl.weeia.gardenerassistant.R;
 import pl.weeia.gardenerassistant.model.Plant;
 
-public class DataService {
+public class PlantsDataService {
 
-	public static List<Plant> getPlants(Context context) throws IOException {
+	private static List<Plant> plants;
+
+	public static List<Plant> readPlantsData(Context context) throws IOException {
+		if (plants == null) {
+			plants = readFromFile(context);
+		}
+
+		return plants;
+	}
+
+	private static List<Plant> readFromFile(Context context) throws IOException  {
 		InputStream inputStream = context.getResources().openRawResource(R.raw.plants);
 		ObjectMapper objectMapper = new ObjectMapper();
 

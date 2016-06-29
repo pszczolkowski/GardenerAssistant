@@ -14,7 +14,7 @@ import java.util.List;
 
 import pl.weeia.gardenerassistant.R;
 import pl.weeia.gardenerassistant.model.Plant;
-import pl.weeia.gardenerassistant.service.DataService;
+import pl.weeia.gardenerassistant.service.PlantsDataService;
 import pl.weeia.gardenerassistant.store.SelectedPlantsStore;
 
 public class PlantsChoiceActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -30,7 +30,7 @@ public class PlantsChoiceActivity extends AppCompatActivity implements AdapterVi
 		selectedPlantsStore = new SelectedPlantsStore(this);
 
 		try {
-			plants = DataService.getPlants(this);
+			plants = PlantsDataService.readPlantsData(this);
 			preparePlantsListView();
 		} catch (IOException e) {
 			Toast
