@@ -8,7 +8,7 @@ public class Action {
 	private String name;
 	private boolean cyclic;
 	private String repeat;
-	private List<Period> period;
+	private List<Period> periods;
 	private List<String> conditions;
 
 	public String getName() {
@@ -35,12 +35,12 @@ public class Action {
 		this.repeat = repeat;
 	}
 
-	public List<Period> getPeriod() {
-		return period;
+	public List<Period> getPeriods() {
+		return periods;
 	}
 
-	public void setPeriod(List<Period> period) {
-		this.period = new ArrayList<>(period);
+	public void setPeriods(List<Period> periods) {
+		this.periods = new ArrayList<>(periods);
 	}
 
 	public List<String> getConditions() {

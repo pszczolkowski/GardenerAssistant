@@ -16,7 +16,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import pl.weeia.gardenerassistant.R;
-import pl.weeia.gardenerassistant.activity.actions.ActionsListAdapter;
 import pl.weeia.gardenerassistant.activity.plantschoice.PlantsChoiceActivity;
 import pl.weeia.gardenerassistant.model.Action;
 import pl.weeia.gardenerassistant.model.Period;
@@ -88,7 +87,7 @@ public class ActionsActivity extends AppCompatActivity {
 		Calendar endOfNearTimePeriod = Calendar.getInstance();
 		endOfNearTimePeriod.add(Calendar.DAY_OF_YEAR, NEAR_TIME_PERIOD_DAYS);
 
-		for (Period period : action.getPeriod()) {
+		for (Period period : action.getPeriods()) {
 			if (period.isBetween(now(), endOfNearTimePeriod)) {
 				return true;
 			}
@@ -120,9 +119,9 @@ public class ActionsActivity extends AppCompatActivity {
 	}
 
 	private Period findTheEarliestPeriod(Action action) {
-		Period theEarliestPeriod = action.getPeriod().get(0);
+		Period theEarliestPeriod = action.getPeriods().get(0);
 
-		for (Period period : action.getPeriod()) {
+		for (Period period : action.getPeriods()) {
 			if (period.startsBefore(theEarliestPeriod)) {
 				theEarliestPeriod = period;
 			}
