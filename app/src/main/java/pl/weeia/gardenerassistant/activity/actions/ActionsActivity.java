@@ -26,8 +26,8 @@ import pl.weeia.gardenerassistant.model.Action;
 import pl.weeia.gardenerassistant.model.Period;
 import pl.weeia.gardenerassistant.model.Plant;
 import pl.weeia.gardenerassistant.service.PlantsDataService;
-import pl.weeia.gardenerassistant.store.plant.SelectedPlantsRepository;
-import pl.weeia.gardenerassistant.store.action.ExecutedActionsRepository;
+import pl.weeia.gardenerassistant.repository.plant.SelectedPlantsRepository;
+import pl.weeia.gardenerassistant.repository.action.ExecutedActionsRepository;
 import pl.weeia.gardenerassistant.util.DateUtil;
 
 public class ActionsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {

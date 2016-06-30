@@ -1,10 +1,8 @@
-package pl.weeia.gardenerassistant.store.plant;
+package pl.weeia.gardenerassistant.repository.plant;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 

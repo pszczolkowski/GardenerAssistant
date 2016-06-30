@@ -1,4 +1,4 @@
-package pl.weeia.gardenerassistant.store.action;
+package pl.weeia.gardenerassistant.repository.action;
 
 import android.content.Context;
 

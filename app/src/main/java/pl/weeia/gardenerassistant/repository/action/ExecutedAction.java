@@ -1,4 +1,4 @@
-package pl.weeia.gardenerassistant.store.action;
+package pl.weeia.gardenerassistant.repository.action;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

@@ -15,7 +15,7 @@ import java.util.List;
 import pl.weeia.gardenerassistant.R;
 import pl.weeia.gardenerassistant.model.Plant;
 import pl.weeia.gardenerassistant.service.PlantsDataService;
-import pl.weeia.gardenerassistant.store.plant.SelectedPlantsRepository;
+import pl.weeia.gardenerassistant.repository.plant.SelectedPlantsRepository;
 
 public class PlantsChoiceActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
