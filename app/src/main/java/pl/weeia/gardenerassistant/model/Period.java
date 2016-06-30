@@ -40,4 +40,8 @@ public class Period {
 		}
 	}
 
+	public boolean contains(Calendar date) {
+		return from.isBeforeOrEqual(date) &&
+			to.isAfterOrEqual(date);
+	}
 }

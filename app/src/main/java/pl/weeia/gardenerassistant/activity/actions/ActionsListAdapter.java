@@ -29,12 +29,15 @@ public class ActionsListAdapter extends BaseAdapter {
 	private List<PlantAction> tomorrowActions = new ArrayList<>();
 	private List<PlantAction> nearFutureActions = new ArrayList<>();
 
-	public ActionsListAdapter(Context context, List<PlantAction> actions) {
+	public ActionsListAdapter(Context context) {
 		this.context = context;
-		addAll(actions);
 	}
 
-	public void addAll(List<PlantAction> actions) {
+	public void setAll(List<PlantAction> actions) {
+		todayActions.clear();
+		tomorrowActions.clear();
+		nearFutureActions.clear();
+
 		for (PlantAction action : actions) {
 			if (action.getExecutionDate() == null) {
 				nearFutureActions.add(action);
@@ -50,6 +53,8 @@ public class ActionsListAdapter extends BaseAdapter {
 		Collections.sort(todayActions, plantActionsComparator);
 		Collections.sort(tomorrowActions, plantActionsComparator);
 		Collections.sort(nearFutureActions, plantActionsComparator);
+
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -91,6 +96,11 @@ public class ActionsListAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		return position;
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+		return getItem(position) instanceof PlantAction;
 	}
 
 	@Override

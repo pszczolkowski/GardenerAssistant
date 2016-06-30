@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,21 +25,24 @@ import pl.weeia.gardenerassistant.activity.plantschoice.PlantsChoiceActivity;
 import pl.weeia.gardenerassistant.model.Action;
 import pl.weeia.gardenerassistant.model.Period;
 import pl.weeia.gardenerassistant.model.Plant;
-import pl.weeia.gardenerassistant.model.Repetition;
 import pl.weeia.gardenerassistant.service.PlantsDataService;
 import pl.weeia.gardenerassistant.store.SelectedPlantsStore;
+import pl.weeia.gardenerassistant.store.action.ActionRepository;
+import pl.weeia.gardenerassistant.util.DateUtil;
 
 public class ActionsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 	private static final int NEAR_TIME_PERIOD_DAYS = 7;
 
-	private List<PlantAction> actions = new ArrayList<>();
 	private ActionsListAdapter actionsListAdapter;
+	private ActionRepository actionRepository;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_actions);
+
+		actionRepository = new ActionRepository(this);
 
 		if (userHasNotSelectedAnyPlants()) {
 			displayPlantsChoice();
@@ -57,7 +61,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 	private void prepareLayout() {
 		ListView actionsListView = (ListView) findViewById(R.id.actionsListView);
 		actionsListView.setOnItemClickListener(this);
-		actionsListAdapter = new ActionsListAdapter(this, actions);
+		actionsListAdapter = new ActionsListAdapter(this);
 		actionsListView.setAdapter(actionsListAdapter);
 	}
 
@@ -87,13 +91,27 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 	private List<PlantAction> fetchActionsToExecute(List<PlantAction> actions) {
 		List<PlantAction> actionsToExecute = new ArrayList<>();
 		for (PlantAction action : actions) {
-			if (actionExecutionIsInNearTimePeriod(action)) {
-				if (action.isCyclic()) {
-					if (action.getRepeat() == Repetition.DAILY) {
-						action.setExecutionDate(now());
-					}
-				}
+			Period period = findNearTimePeriodOf(action);
+			if (period == null) {
+				continue;
+			}
 
+
+			if (action.isCyclic()) {
+				switch (action.getRepeat()) {
+					case DAILY:
+						if (actionHasNotBeenExecutedToday(action)) {
+							action.setExecutionDate(now());
+						} else {
+							action.setExecutionDate(tomorrow());
+						}
+
+						actionsToExecute.add(action);
+						break;
+					default:
+						throw new IllegalStateException("Unsupported repetition <" + action.getRepeat() + ">");
+				}
+			} else if (actionHasNotBeenExecutedInPeriod(action, period)) {
 				actionsToExecute.add(action);
 			}
 		}
@@ -101,26 +119,38 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 		return actionsToExecute;
 	}
 
-	private boolean actionExecutionIsInNearTimePeriod(PlantAction action) {
+	private Period findNearTimePeriodOf(PlantAction action) {
+		// if two periods are contained in near time, then only one of them
+		// is returned. It's not guaranteed that it will be the earlier one
+
 		Calendar endOfNearTimePeriod = Calendar.getInstance();
 		endOfNearTimePeriod.add(Calendar.DAY_OF_YEAR, NEAR_TIME_PERIOD_DAYS);
 
 		for (Period period : action.getPeriods()) {
 			if (period.isBetween(now(), endOfNearTimePeriod)) {
-				return true;
+				return period;
 			}
 		}
 
-		return false;
+		return null;
+	}
+
+	private boolean actionHasNotBeenExecutedToday(PlantAction action) {
+		return actionRepository.findExecutedActionByPlantIdAndNameAndDate(action.getPlant().getId(), action.getName(), now()) == null;
+	}
+
+	private boolean actionHasNotBeenExecutedInPeriod(PlantAction action, Period period) {
+		return actionRepository.findExecutedActionByPlantIdAndNameAndDateIn(action.getPlant().getId(), action.getName(), period) == null;
 	}
 
 	private Calendar now() {
 		return Calendar.getInstance();
 	}
 
-	private boolean actionHasNotBeenExecutedToday(PlantAction action) {
-		// TODO
-		return true;
+	private Calendar tomorrow() {
+		Calendar tomorrow = Calendar.getInstance();
+		tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+		return tomorrow;
 	}
 
 	private void sortActionsByDueDate(List<PlantAction> actionsToExecute) {
@@ -149,7 +179,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 	}
 
 	private void displayActions(List<PlantAction> actionsToExecute) {
-		actionsListAdapter.addAll(actionsToExecute);
+		actionsListAdapter.setAll(actionsToExecute);
 	}
 
 	@Override
@@ -172,6 +202,60 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		final PlantAction action = (PlantAction) actionsListAdapter.getItem(position);
+
+		if (actionnCannotBeExecutedToday(action)) {
+			shortToast("Dzisiaj nie można zakończyć tej czynności");
+		} else {
+			askUserToConfirmExecutingTheAction(action);
+		}
+	}
+
+	private void askUserToConfirmExecutingTheAction(final PlantAction action) {
+		new AlertDialog.Builder(this)
+			.setTitle(action.getName())
+			.setMessage("Czy na pewno chcesz oznaczyć tę czynność jako wykonaną?")
+			.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					try {
+						executeAction(action);
+					} catch (IOException e) {
+						e.printStackTrace();
+						shortToast("Wystąpił błąd");
+					}
+				}
+			})
+			.setNegativeButton("Nie", null)
+			.show();
+	}
+
+	private boolean actionnCannotBeExecutedToday(PlantAction action) {
+		if (action.getExecutionDate() != null) {
+			if (!DateUtil.isToday(action.getExecutionDate())) {
+				return true;
+			}
+		} else {
+			Period nearTimePeriod = findNearTimePeriodOf(action);
+			if (nearTimePeriod != null && !nearTimePeriod.contains(now())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void shortToast(String text) {
+		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+	}
+
+	private void executeAction(PlantAction action) throws IOException {
+		actionRepository.addExecutedAction(action);
+		displayActionsToExecute();
 	}
 
 }
