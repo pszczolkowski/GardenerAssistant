@@ -15,19 +15,19 @@ import java.util.List;
 import pl.weeia.gardenerassistant.R;
 import pl.weeia.gardenerassistant.model.Plant;
 import pl.weeia.gardenerassistant.service.PlantsDataService;
-import pl.weeia.gardenerassistant.store.plant.SelectedPlantsStore;
+import pl.weeia.gardenerassistant.store.plant.SelectedPlantsRepository;
 
 public class PlantsChoiceActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 	private List<Plant> plants;
-	SelectedPlantsStore selectedPlantsStore;
+	SelectedPlantsRepository selectedPlantsStore;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_plants_choice);
 
-		selectedPlantsStore = new SelectedPlantsStore(this);
+		selectedPlantsStore = new SelectedPlantsRepository(this);
 
 		try {
 			plants = PlantsDataService.readPlantsData(this);

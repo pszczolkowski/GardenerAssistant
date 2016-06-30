@@ -26,7 +26,7 @@ import pl.weeia.gardenerassistant.model.Action;
 import pl.weeia.gardenerassistant.model.Period;
 import pl.weeia.gardenerassistant.model.Plant;
 import pl.weeia.gardenerassistant.service.PlantsDataService;
-import pl.weeia.gardenerassistant.store.plant.SelectedPlantsStore;
+import pl.weeia.gardenerassistant.store.plant.SelectedPlantsRepository;
 import pl.weeia.gardenerassistant.store.action.ExecutedActionsRepository;
 import pl.weeia.gardenerassistant.util.DateUtil;
 
@@ -36,7 +36,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 
 	private ActionsListAdapter actionsListAdapter;
 	private ExecutedActionsRepository executedActionsRepository;
-	private SelectedPlantsStore selectedPlantsStore;
+	private SelectedPlantsRepository selectedPlantsStore;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 		setContentView(R.layout.activity_actions);
 
 		executedActionsRepository = new ExecutedActionsRepository(this);
-		selectedPlantsStore = new SelectedPlantsStore(this);
+		selectedPlantsStore = new SelectedPlantsRepository(this);
 
 		if (userHasNotSelectedAnyPlants()) {
 			displayPlantsChoice();
@@ -221,7 +221,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 	}
 
 	private boolean userHasNotSelectedAnyPlants() {
-		return new SelectedPlantsStore(this).isEmpty();
+		return new SelectedPlantsRepository(this).isEmpty();
 	}
 
 	@Override

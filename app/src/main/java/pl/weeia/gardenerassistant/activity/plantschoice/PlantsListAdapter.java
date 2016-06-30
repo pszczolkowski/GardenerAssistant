@@ -13,13 +13,13 @@ import java.util.List;
 
 import pl.weeia.gardenerassistant.R;
 import pl.weeia.gardenerassistant.model.Plant;
-import pl.weeia.gardenerassistant.store.plant.SelectedPlantsStore;
+import pl.weeia.gardenerassistant.store.plant.SelectedPlantsRepository;
 
 public class PlantsListAdapter extends ArrayAdapter<Plant> {
 
-	private SelectedPlantsStore selectedPlantsStore;
+	private SelectedPlantsRepository selectedPlantsStore;
 
-	public PlantsListAdapter(Context context, int resource, List<Plant> plants, SelectedPlantsStore selectedPlantsStore) {
+	public PlantsListAdapter(Context context, int resource, List<Plant> plants, SelectedPlantsRepository selectedPlantsStore) {
 		super(context, resource, plants);
 		this.selectedPlantsStore = selectedPlantsStore;
 	}

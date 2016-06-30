@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SelectedPlantsStore {
+public class SelectedPlantsRepository {
 
 	private static final String SHARED_PREFERENCES_NAME = "preferences";
 	private static final String SHARED_PREFERENCES_SELECTED_PLANTS = "selectedPlantsIds";
@@ -17,7 +17,7 @@ public class SelectedPlantsStore {
 
 	private Context context;
 
-	public SelectedPlantsStore(Context context) {
+	public SelectedPlantsRepository(Context context) {
 		this.context = context;
 
 		if (selectedPlantsIds == null) {
