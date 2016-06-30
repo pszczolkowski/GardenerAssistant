@@ -27,7 +27,7 @@ import pl.weeia.gardenerassistant.model.Period;
 import pl.weeia.gardenerassistant.model.Plant;
 import pl.weeia.gardenerassistant.service.PlantsDataService;
 import pl.weeia.gardenerassistant.store.SelectedPlantsStore;
-import pl.weeia.gardenerassistant.store.action.ActionRepository;
+import pl.weeia.gardenerassistant.store.action.ExecutedActionsRepository;
 import pl.weeia.gardenerassistant.util.DateUtil;
 
 public class ActionsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -35,7 +35,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 	private static final int NEAR_TIME_PERIOD_DAYS = 7;
 
 	private ActionsListAdapter actionsListAdapter;
-	private ActionRepository actionRepository;
+	private ExecutedActionsRepository executedActionsRepository;
 	private SelectedPlantsStore selectedPlantsStore;
 
 	@Override
@@ -43,7 +43,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_actions);
 
-		actionRepository = new ActionRepository(this);
+		executedActionsRepository = new ExecutedActionsRepository(this);
 		selectedPlantsStore = new SelectedPlantsStore(this);
 
 		if (userHasNotSelectedAnyPlants()) {
@@ -159,11 +159,11 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 	}
 
 	private boolean actionHasNotBeenExecutedToday(PlantAction action) {
-		return actionRepository.findExecutedActionByPlantIdAndNameAndDate(action.getPlant().getId(), action.getName(), now()) == null;
+		return executedActionsRepository.findByPlantIdAndNameAndDate(action.getPlant().getId(), action.getName(), now()) == null;
 	}
 
 	private boolean actionHasNotBeenExecutedInPeriod(PlantAction action, Period period) {
-		return actionRepository.findExecutedActionByPlantIdAndNameAndDateIn(action.getPlant().getId(), action.getName(), period) == null;
+		return executedActionsRepository.findByPlantIdAndNameAndDateIn(action.getPlant().getId(), action.getName(), period) == null;
 	}
 
 	private Calendar now() {
@@ -285,7 +285,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 	}
 
 	private void executeAction(PlantAction action) throws IOException {
-		actionRepository.addExecutedAction(action);
+		executedActionsRepository.addExecutedAction(action);
 		displayActionsToExecute();
 	}
 

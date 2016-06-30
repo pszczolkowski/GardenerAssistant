@@ -15,7 +15,7 @@ import pl.weeia.gardenerassistant.activity.actions.PlantAction;
 import pl.weeia.gardenerassistant.model.Period;
 import pl.weeia.gardenerassistant.util.DateUtil;
 
-public class ActionRepository {
+public class ExecutedActionsRepository {
 
 	private static final String FILE_NAME = "executed_actions_store";
 
@@ -23,7 +23,7 @@ public class ActionRepository {
 
 	private Context context;
 
-	public ActionRepository(Context context) {
+	public ExecutedActionsRepository(Context context) {
 		this.context = context;
 	}
 
@@ -38,7 +38,7 @@ public class ActionRepository {
 		saveExecutedActions();
 	}
 
-	public ExecutedAction findExecutedActionByPlantIdAndNameAndDate(int plantId, String actionName, Calendar date) {
+	public ExecutedAction findByPlantIdAndNameAndDate(int plantId, String actionName, Calendar date) {
 		readExecutedActionsFromStoreIfNecessary();
 
 		for (ExecutedAction executedAction : executedActions) {
@@ -66,7 +66,7 @@ public class ActionRepository {
 		}
 	}
 
-	public ExecutedAction findExecutedActionByPlantIdAndNameAndDateIn(int plantId, String actionName, Period period) {
+	public ExecutedAction findByPlantIdAndNameAndDateIn(int plantId, String actionName, Period period) {
 		readExecutedActionsFromStoreIfNecessary();
 
 		for (ExecutedAction executedAction : executedActions) {
