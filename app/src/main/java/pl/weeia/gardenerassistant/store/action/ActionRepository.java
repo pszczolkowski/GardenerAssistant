@@ -67,6 +67,8 @@ public class ActionRepository {
 	}
 
 	public ExecutedAction findExecutedActionByPlantIdAndNameAndDateIn(int plantId, String actionName, Period period) {
+		readExecutedActionsFromStoreIfNecessary();
+
 		for (ExecutedAction executedAction : executedActions) {
 			if (executedAction.getPlantId() == plantId &&
 				executedAction.getActionName().equals(actionName) &&
