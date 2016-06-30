@@ -106,6 +106,9 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 				continue;
 			}
 
+			if (conditionsAreNotMet(action)) {
+				continue;
+			}
 
 			if (action.isCyclic()) {
 				switch (action.getRepeat()) {
@@ -143,6 +146,10 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 		}
 
 		return null;
+	}
+
+	private boolean conditionsAreNotMet(PlantAction action) {
+		return !action.getConditions().isEmpty();
 	}
 
 	private boolean actionHasNotBeenExecutedToday(PlantAction action) {
