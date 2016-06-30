@@ -26,7 +26,7 @@ import pl.weeia.gardenerassistant.model.Action;
 import pl.weeia.gardenerassistant.model.Period;
 import pl.weeia.gardenerassistant.model.Plant;
 import pl.weeia.gardenerassistant.service.PlantsDataService;
-import pl.weeia.gardenerassistant.store.SelectedPlantsStore;
+import pl.weeia.gardenerassistant.store.plant.SelectedPlantsStore;
 import pl.weeia.gardenerassistant.store.action.ExecutedActionsRepository;
 import pl.weeia.gardenerassistant.util.DateUtil;
 

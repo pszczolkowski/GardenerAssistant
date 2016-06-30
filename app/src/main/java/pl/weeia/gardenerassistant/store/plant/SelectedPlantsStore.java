@@ -1,4 +1,4 @@
-package pl.weeia.gardenerassistant.store;
+package pl.weeia.gardenerassistant.store.plant;
 
 import android.content.Context;
 import android.content.SharedPreferences;

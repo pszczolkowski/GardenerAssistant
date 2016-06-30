@@ -2,7 +2,6 @@ package pl.weeia.gardenerassistant.activity.plantschoice;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatCheckBox;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Set;
 
 import pl.weeia.gardenerassistant.R;
 import pl.weeia.gardenerassistant.model.Plant;
-import pl.weeia.gardenerassistant.store.SelectedPlantsStore;
+import pl.weeia.gardenerassistant.store.plant.SelectedPlantsStore;
 
 public class PlantsListAdapter extends ArrayAdapter<Plant> {
 
