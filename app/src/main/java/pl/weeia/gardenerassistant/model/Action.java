@@ -7,7 +7,7 @@ public class Action {
 
 	private String name;
 	private boolean cyclic;
-	private String repeat;
+	private Repetition repeat;
 	private List<Period> periods;
 	private List<String> conditions;
 
@@ -27,11 +27,11 @@ public class Action {
 		this.cyclic = cyclic;
 	}
 
-	public String getRepeat() {
+	public Repetition getRepeat() {
 		return repeat;
 	}
 
-	public void setRepeat(String repeat) {
+	public void setRepeat(Repetition repeat) {
 		this.repeat = repeat;
 	}
 

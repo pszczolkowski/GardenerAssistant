@@ -7,7 +7,7 @@
       {
         "name": "Podlać",
         "cyclic": true,
-        "repeat": "daily",
+        "repeat": "DAILY",
         "periods": [
           {
             "from": "01.06",
