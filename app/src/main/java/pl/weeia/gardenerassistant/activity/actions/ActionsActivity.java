@@ -55,6 +55,12 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 		displayActionsToExecute();
 	}
 
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+		displayActionsToExecute();
+	}
+
 	private void displayPlantsChoice() {
 		Intent intent = new Intent(this, PlantsChoiceActivity.class);
 		startActivity(intent);
