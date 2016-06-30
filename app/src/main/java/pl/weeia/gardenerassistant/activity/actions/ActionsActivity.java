@@ -179,6 +179,14 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 	}
 
 	private void displayActions(List<PlantAction> actionsToExecute) {
+		if (actionsToExecute.isEmpty()) {
+			findViewById(R.id.noActionsLabel).setVisibility(View.VISIBLE);
+			findViewById(R.id.actionsListView).setVisibility(View.GONE);
+		} else {
+			findViewById(R.id.noActionsLabel).setVisibility(View.GONE);
+			findViewById(R.id.actionsListView).setVisibility(View.VISIBLE);
+		}
+
 		actionsListAdapter.setAll(actionsToExecute);
 	}
 

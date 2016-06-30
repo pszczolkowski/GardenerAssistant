@@ -17,4 +17,11 @@
         android:layout_centerHorizontal="true" >
     </ListView>
 
+    <TextView
+        android:id="@+id/noActionsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="Nie masz żadnych czynności do wykonania w najbliższym czasie"/>
+
 </RelativeLayout>
