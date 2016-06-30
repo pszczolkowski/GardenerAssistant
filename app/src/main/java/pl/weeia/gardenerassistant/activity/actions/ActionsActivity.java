@@ -36,6 +36,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 
 	private ActionsListAdapter actionsListAdapter;
 	private ActionRepository actionRepository;
+	private SelectedPlantsStore selectedPlantsStore;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 		setContentView(R.layout.activity_actions);
 
 		actionRepository = new ActionRepository(this);
+		selectedPlantsStore = new SelectedPlantsStore(this);
 
 		if (userHasNotSelectedAnyPlants()) {
 			displayPlantsChoice();
@@ -68,7 +70,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 	private void displayActionsToExecute() {
 		try {
 			List<Plant> plants = PlantsDataService.readPlantsData(this);
-			List<PlantAction> actions = fetchAllActionsFromPlants(plants);
+			List<PlantAction> actions = fetchAllActionsFromSelectedPlants(plants);
 			List<PlantAction> actionsToExecute = fetchActionsToExecute(actions);
 			sortActionsByDueDate(actionsToExecute);
 			displayActions(actionsToExecute);
@@ -77,15 +79,23 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 		}
 	}
 
-	private List<PlantAction> fetchAllActionsFromPlants(List<Plant> plants) {
+	private List<PlantAction> fetchAllActionsFromSelectedPlants(List<Plant> plants) {
 		List<PlantAction> allActions = new ArrayList<>();
 		for (Plant plant : plants) {
+			if (plantIsNotSelectedByUser(plant)) {
+				continue;
+			}
+
 			for (Action action : plant.getActions()) {
 				allActions.add(new PlantAction(action, plant));
 			}
 		}
 
 		return allActions;
+	}
+
+	private boolean plantIsNotSelectedByUser(Plant plant) {
+		return !selectedPlantsStore.isSelected(plant.getId());
 	}
 
 	private List<PlantAction> fetchActionsToExecute(List<PlantAction> actions) {
