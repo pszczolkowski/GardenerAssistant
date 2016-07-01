@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -33,6 +32,8 @@ import pl.weeia.gardenerassistant.model.Plant;
 import pl.weeia.gardenerassistant.repository.action.ExecutedActionsRepository;
 import pl.weeia.gardenerassistant.repository.plant.SelectedPlantsRepository;
 import pl.weeia.gardenerassistant.service.PlantsDataService;
+import pl.weeia.gardenerassistant.service.condition.ConditionChecker;
+import pl.weeia.gardenerassistant.service.weather.WeatherService;
 import pl.weeia.gardenerassistant.util.DateUtil;
 
 public class ActionsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -42,6 +43,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 	private ActionsListAdapter actionsListAdapter;
 	private ExecutedActionsRepository executedActionsRepository;
 	private SelectedPlantsRepository selectedPlantsStore;
+	private ConditionChecker conditionChecker;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +52,14 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 
 		executedActionsRepository = new ExecutedActionsRepository(this);
 		selectedPlantsStore = new SelectedPlantsRepository(this);
+		conditionChecker = new ConditionChecker(this);
 
 		if (userHasNotSelectedAnyPlants()) {
 			displayWelcomeView();
 			return;
 		}
 
+		new WeatherService(this).refresh();
 		prepareLayout();
 		displayActionsToExecute();
 	}
@@ -132,7 +136,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 				switch (action.getRepeat()) {
 					case DAILY:
 						if (actionHasNotBeenExecutedToday(action)) {
-							action.setExecutionDate(now());
+							action.setExecutionDate(today());
 						} else {
 							action.setExecutionDate(tomorrow());
 						}
@@ -143,7 +147,12 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 						throw new IllegalStateException("Unsupported repetition <" + action.getRepeat() + ">");
 				}
 			} else if (actionHasNotBeenExecutedInPeriod(action, period)) {
-				action.setPeriod(period);
+				if (action.getConditions().isEmpty()) {
+					action.setPeriod(period);
+				} else {
+					action.setExecutionDate(today());
+				}
+
 				actionsToExecute.add(action);
 			}
 		}
@@ -159,7 +168,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 		endOfNearTimePeriod.add(Calendar.DAY_OF_YEAR, NEAR_TIME_PERIOD_DAYS);
 
 		for (Period period : action.getPeriods()) {
-			if (period.isBetween(now(), endOfNearTimePeriod)) {
+			if (period.isBetween(today(), endOfNearTimePeriod)) {
 				return period;
 			}
 		}
@@ -168,18 +177,24 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 	}
 
 	private boolean conditionsAreNotMet(PlantAction action) {
-		return !action.getConditions().isEmpty();
+		for (String condition : action.getConditions()) {
+			if (!conditionChecker.check(condition)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private boolean actionHasNotBeenExecutedToday(PlantAction action) {
-		return executedActionsRepository.findByPlantIdAndNameAndDate(action.getPlant().getId(), action.getName(), now()) == null;
+		return executedActionsRepository.findByPlantIdAndNameAndDate(action.getPlant().getId(), action.getName(), today()) == null;
 	}
 
 	private boolean actionHasNotBeenExecutedInPeriod(PlantAction action, Period period) {
 		return executedActionsRepository.findByPlantIdAndNameAndDateIn(action.getPlant().getId(), action.getName(), period) == null;
 	}
 
-	private Calendar now() {
+	private Calendar today() {
 		return Calendar.getInstance();
 	}
 
@@ -288,7 +303,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 			}
 		} else {
 			Period nearTimePeriod = findNearTimePeriodOf(action);
-			if (nearTimePeriod != null && !nearTimePeriod.contains(now())) {
+			if (nearTimePeriod != null && !nearTimePeriod.contains(today())) {
 				return true;
 			}
 		}
