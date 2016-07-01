@@ -74,7 +74,7 @@ public class ActionsListAdapter extends BaseAdapter {
 	public Object getItem(int position) {
 		if (!todayActions.isEmpty()) {
 			if (position <= todayActions.size()) {
-				return position == 0 ? "Dzisiaj" : todayActions.get(position - 1);
+				return position == 0 ? "DZISIAJ" : todayActions.get(position - 1);
 			} else {
 				position -= todayActions.size() + 1;
 			}
@@ -82,13 +82,13 @@ public class ActionsListAdapter extends BaseAdapter {
 
 		if (!tomorrowActions.isEmpty()) {
 			if (position <= tomorrowActions.size()) {
-				return position == 0 ? "Jutro" : tomorrowActions.get(position - 1);
+				return position == 0 ? "JUTRO" : tomorrowActions.get(position - 1);
 			} else {
 				position -= tomorrowActions.size() + 1;
 			}
 		}
 
-		return position == 0 ? "W najbliższym czasie" : nearFutureActions.get(position - 1);
+		return position == 0 ? "W NAJBLIŻSZYM CZASIE" : nearFutureActions.get(position - 1);
 	}
 
 	@Override
