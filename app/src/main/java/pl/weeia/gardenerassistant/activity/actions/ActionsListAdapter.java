@@ -140,6 +140,17 @@ public class ActionsListAdapter extends BaseAdapter {
 		TextView executionDateView = (TextView) view.findViewById(R.id.actionsListItemExecutionDate);
 		executionDateView.setText(dateToString(action));
 
+		if (!action.getConditions().isEmpty()) {
+			for (String condition : action.getConditions()) {
+				if (condition.matches("temperature\\s*<=?\\s*[0-9]+(\\.[0-9]+)?")) {
+					TextView conditionsTextView = (TextView) view.findViewById(R.id.actionsListItemConditions);
+					conditionsTextView.setVisibility(View.VISIBLE);
+					conditionsTextView.setText("Kiedy temperatura poniżej " + condition.substring(12) + " ℃" );
+				}
+			}
+
+		}
+
 		return view;
 	}
 
