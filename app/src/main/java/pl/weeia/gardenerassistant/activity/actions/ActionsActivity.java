@@ -2,14 +2,15 @@ package pl.weeia.gardenerassistant.activity.actions;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,15 +20,17 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import pl.weeia.gardenerassistant.R;
 import pl.weeia.gardenerassistant.activity.plantschoice.PlantsChoiceActivity;
 import pl.weeia.gardenerassistant.model.Action;
 import pl.weeia.gardenerassistant.model.Period;
 import pl.weeia.gardenerassistant.model.Plant;
-import pl.weeia.gardenerassistant.service.PlantsDataService;
-import pl.weeia.gardenerassistant.repository.plant.SelectedPlantsRepository;
 import pl.weeia.gardenerassistant.repository.action.ExecutedActionsRepository;
+import pl.weeia.gardenerassistant.repository.plant.SelectedPlantsRepository;
+import pl.weeia.gardenerassistant.service.PlantsDataService;
 import pl.weeia.gardenerassistant.util.DateUtil;
 
 public class ActionsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -254,6 +257,9 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					try {
+						CheckBox checkBox = (CheckBox) findViewById(R.id.actionsListItemCheckBox);
+						checkBox.setChecked(true);
+
 						executeAction(action);
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -286,7 +292,19 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 
 	private void executeAction(PlantAction action) throws IOException {
 		executedActionsRepository.addExecutedAction(action);
-		displayActionsToExecute();
+
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						displayActionsToExecute();
+					}
+				});
+			}
+		}, 500);
 	}
 
 }
