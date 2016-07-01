@@ -60,7 +60,6 @@ public class ExecutedActionsRepository {
 			try {
 				executedActions = objectMapper.readValue(file, new TypeReference<List<ExecutedAction>>(){});
 			} catch (IOException e) {
-				e.printStackTrace();
 				executedActions = new ArrayList<>();
 			}
 		}
