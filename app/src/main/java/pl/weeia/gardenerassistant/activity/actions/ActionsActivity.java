@@ -26,6 +26,7 @@ import java.util.TimerTask;
 
 import pl.weeia.gardenerassistant.R;
 import pl.weeia.gardenerassistant.activity.plantschoice.PlantsChoiceActivity;
+import pl.weeia.gardenerassistant.activity.welcome.WelcomeActivity;
 import pl.weeia.gardenerassistant.model.Action;
 import pl.weeia.gardenerassistant.model.Period;
 import pl.weeia.gardenerassistant.model.Plant;
@@ -51,7 +52,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 		selectedPlantsStore = new SelectedPlantsRepository(this);
 
 		if (userHasNotSelectedAnyPlants()) {
-			displayPlantsChoice();
+			displayWelcomeView();
 			return;
 		}
 
@@ -59,9 +60,16 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 		displayActionsToExecute();
 	}
 
+	private void displayWelcomeView() {
+		Intent intent = new Intent(this, WelcomeActivity.class);
+		startActivity(intent);
+	}
+
 	@Override
 	protected void onPostResume() {
 		super.onPostResume();
+
+		prepareLayout();
 		displayActionsToExecute();
 	}
 
