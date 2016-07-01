@@ -1,6 +1,8 @@
 package pl.weeia.gardenerassistant.service.weather;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -37,6 +39,10 @@ public class WeatherService {
 	}
 
 	public void refresh () {
+		if (thereIsNoInternetConnection()) {
+			return;
+		}
+
 		new WeatherLoaderImpl().load("Lodz", "PL", new WeatherLoadListener() {
 			@Override
 			public void onWeatherLoad(WeatherLoadResult weatherLoadResult) {
@@ -65,6 +71,12 @@ public class WeatherService {
 				}
 			}
 		});
+	}
+
+	private boolean thereIsNoInternetConnection() {
+			ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo netInfo = cm.getActiveNetworkInfo();
+			return netInfo == null || !netInfo.isConnectedOrConnecting();
 	}
 
 	private float kelvinToCelsius(float temperature) {
