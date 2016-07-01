@@ -1,28 +1,26 @@
 package pl.weeia.gardenerassistant.activity.actions;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import pl.weeia.gardenerassistant.R;
 import pl.weeia.gardenerassistant.util.DateUtil;
 
 public class ActionsListAdapter extends BaseAdapter {
 
+	private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM", Locale.getDefault());
 	private final Context context;
 
 	private List<PlantAction> todayActions = new ArrayList<>();
@@ -139,12 +137,27 @@ public class ActionsListAdapter extends BaseAdapter {
 		TextView textView = (TextView) view.findViewById(R.id.actionsListItemName);
 		textView.setText(action.getName());
 
-		if (action.getExecutionDate() != null) {
-			TextView executionDateView = (TextView) view.findViewById(R.id.actionsListItemExecutionDate);
-			executionDateView.setText(new SimpleDateFormat("dd.MM").format(action.getExecutionDate().getTime()));
-		}
+		TextView executionDateView = (TextView) view.findViewById(R.id.actionsListItemExecutionDate);
+		executionDateView.setText(dateToString(action));
 
 		return view;
+	}
+
+	private String dateToString(PlantAction action) {
+		if (action.getExecutionDate() != null) {
+			if (DateUtil.isToday(action.getExecutionDate())) {
+				return "Dzisiaj";
+			} else if (DateUtil.isTomorrow(action.getExecutionDate())) {
+				return "Jutro";
+			} else {
+				return simpleDateFormat.format(action.getExecutionDate().getTime());
+			}
+		} else {
+			String result = simpleDateFormat.format(action.getPeriod().getStart().getTime());
+			result += " - " + simpleDateFormat.format(action.getPeriod().getEnd().getTime());
+
+			return result;
+		}
 	}
 
 	private static Comparator<PlantAction> plantActionsComparator = new Comparator<PlantAction>() {

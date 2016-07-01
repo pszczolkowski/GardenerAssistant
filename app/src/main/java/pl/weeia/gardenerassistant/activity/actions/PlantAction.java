@@ -13,6 +13,7 @@ public class PlantAction {
 	private final Action action;
 	private final Plant plant;
 	private Calendar executionDate;
+	private Period period;
 
 	public PlantAction(Action action, Plant plant) {
 		this.action = action;
@@ -49,5 +50,13 @@ public class PlantAction {
 
 	public Calendar getExecutionDate() {
 		return executionDate;
+	}
+
+	public Period getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(Period period) {
+		this.period = period;
 	}
 }

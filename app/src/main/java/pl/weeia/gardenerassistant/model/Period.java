@@ -44,4 +44,12 @@ public class Period {
 		return from.isBeforeOrEqual(date) &&
 			to.isAfterOrEqual(date);
 	}
+
+	public YearlessDate getStart() {
+		return from;
+	}
+
+	public YearlessDate getEnd() {
+		return to;
+	}
 }

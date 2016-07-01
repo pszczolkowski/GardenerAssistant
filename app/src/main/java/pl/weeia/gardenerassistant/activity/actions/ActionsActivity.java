@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -134,6 +135,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 						throw new IllegalStateException("Unsupported repetition <" + action.getRepeat() + ">");
 				}
 			} else if (actionHasNotBeenExecutedInPeriod(action, period)) {
+				action.setPeriod(period);
 				actionsToExecute.add(action);
 			}
 		}
