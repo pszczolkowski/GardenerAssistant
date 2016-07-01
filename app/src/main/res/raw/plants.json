@@ -5,10 +5,10 @@
     "icon": "tomato",
     "actions": [
       {
-        "name": "Podlać",
+        "name": "Podlać pomidory",
         "cyclic": true,
-        "repeat": "daily",
-        "period": [
+        "repeat": "DAILY",
+        "periods": [
           {
             "from": "01.06",
             "to": "15.07"
@@ -16,8 +16,8 @@
         ]
       },
       {
-        "name": "Opryskać",
-        "period": [
+        "name": "Opryskać pomidory",
+        "periods": [
           {
             "from": "01.05",
             "to": "14.05"
@@ -32,11 +32,11 @@
     "icon": "radish",
     "actions": [
       {
-        "name": "Przykryć folią ochronną",
+        "name": "Przykryć rzodkiew folią ochronną",
         "conditions": [
           "temperature<0"
         ],
-        "period": [
+        "periods": [
           {
             "from": "01.05",
             "to": "30.09"
@@ -52,8 +52,8 @@
     "perennial": true,
     "actions": [
       {
-        "name": "Przyciąc",
-        "period": [
+        "name": "Przyciąc maliny",
+        "periods": [
           {
             "from": "01.05",
             "to": "14.05"
@@ -61,5 +61,77 @@
         ]
       }
     ]
+  },
+  {
+    "id": 4,
+    "name": "Ogórek",
+    "icon": "cucumber",
+    "actions": [
+      {
+        "name": "Podlać ogórki",
+        "cyclic": true,
+        "repeat": "DAILY",
+        "periods": [
+          {
+            "from": "01.05",
+            "to": "07.08"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Sałata",
+    "icon": "lettuce",
+    "actions": []
+  },
+  {
+    "id": 6,
+    "name": "Burak",
+    "icon": "beetroot",
+    "actions": []
+  },
+  {
+    "id": 7,
+    "name": "Porzeczka",
+    "icon": "currant",
+    "actions": []
+  },
+  {
+    "id": 8,
+    "name": "Kapusta",
+    "icon": "cabbage",
+    "actions": []
+  },
+  {
+    "id": 8,
+    "name": "Marchew",
+    "icon": "carrot",
+    "actions": []
+  },
+  {
+    "id": 9,
+    "name": "Ziemniak",
+    "icon": "potato",
+    "actions": []
+  },
+  {
+    "id": 10,
+    "name": "Kalafior",
+    "icon": "cauliflower",
+    "actions": []
+  },
+  {
+    "id": 11,
+    "name": "Brokół",
+    "icon": "broccoli",
+    "actions": []
+  },
+  {
+    "id": 12,
+    "name": "Papryka",
+    "icon": "paprika",
+    "actions": []
   }
 ]

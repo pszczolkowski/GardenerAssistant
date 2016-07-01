@@ -6,10 +6,10 @@ import java.util.List;
 public class Action {
 
 	private String name;
-	private boolean cyclic;
-	private String repeat;
-	private List<Period> period;
-	private List<String> conditions;
+	private boolean cyclic = false;
+	private Repetition repeat;
+	private List<Period> periods = new ArrayList<>();
+	private List<String> conditions = new ArrayList<>();
 
 	public String getName() {
 		return name;
@@ -27,20 +27,20 @@ public class Action {
 		this.cyclic = cyclic;
 	}
 
-	public String getRepeat() {
+	public Repetition getRepeat() {
 		return repeat;
 	}
 
-	public void setRepeat(String repeat) {
+	public void setRepeat(Repetition repeat) {
 		this.repeat = repeat;
 	}
 
-	public List<Period> getPeriod() {
-		return period;
+	public List<Period> getPeriods() {
+		return periods;
 	}
 
-	public void setPeriod(List<Period> period) {
-		this.period = new ArrayList<>(period);
+	public void setPeriods(List<Period> periods) {
+		this.periods = new ArrayList<>(periods);
 	}
 
 	public List<String> getConditions() {
