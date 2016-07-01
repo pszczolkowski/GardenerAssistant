@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -33,6 +32,7 @@ import pl.weeia.gardenerassistant.model.Plant;
 import pl.weeia.gardenerassistant.repository.action.ExecutedActionsRepository;
 import pl.weeia.gardenerassistant.repository.plant.SelectedPlantsRepository;
 import pl.weeia.gardenerassistant.service.PlantsDataService;
+import pl.weeia.gardenerassistant.service.weather.WeatherService;
 import pl.weeia.gardenerassistant.util.DateUtil;
 
 public class ActionsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -56,6 +56,7 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 			return;
 		}
 
+		new WeatherService(this).refresh();
 		prepareLayout();
 		displayActionsToExecute();
 	}
