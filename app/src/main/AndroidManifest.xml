@@ -19,7 +19,7 @@
             android:name=".activity.plantschoice.PlantsChoiceActivity"
             android:parentActivityName=".activity.actions.ActionsActivity">
         </activity>
-        <activity android:name=".activity.welcome.WelcomeActivity">
+        <activity android:name=".activity.welcome.WelcomeActivity" android:noHistory="true">
         </activity>
     </application>
 
