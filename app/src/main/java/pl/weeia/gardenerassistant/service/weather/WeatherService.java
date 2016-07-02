@@ -12,6 +12,9 @@ import org.bitpipeline.lib.owm.WeatherStatusResponse;
 import java.io.File;
 import java.io.IOException;
 
+import pl.weeia.gardenerassistant.model.GardenLocation;
+import pl.weeia.gardenerassistant.service.GardenLocationStore;
+
 public class WeatherService {
 
 	private static final String FILE_NAME = "weather_status_store";
@@ -43,7 +46,8 @@ public class WeatherService {
 			return;
 		}
 
-		new WeatherLoaderImpl().load("Lodz", "PL", new WeatherLoadListener() {
+		GardenLocation gardenLocation = new GardenLocationStore(context).get();
+		new WeatherLoaderImpl().load(gardenLocation.getCityName(), gardenLocation.getCountryCode(), new WeatherLoadListener() {
 			@Override
 			public void onWeatherLoad(WeatherLoadResult weatherLoadResult) {
 				if (!weatherLoadResult.hasSucceeded()) {
