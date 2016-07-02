@@ -4,4 +4,7 @@
     <item android:id="@+id/selectPlantsButton"
           android:title="Wybierz rośliny" />
 
+    <item android:id="@+id/selectLocationButton"
+          android:title="Określ położenie ogródka" />
+
 </menu>

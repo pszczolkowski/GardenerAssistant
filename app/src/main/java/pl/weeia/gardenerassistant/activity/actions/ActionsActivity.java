@@ -24,6 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import pl.weeia.gardenerassistant.R;
+import pl.weeia.gardenerassistant.activity.locationchoice.LocationChoiceActivity;
 import pl.weeia.gardenerassistant.activity.plantschoice.PlantsChoiceActivity;
 import pl.weeia.gardenerassistant.activity.welcome.WelcomeActivity;
 import pl.weeia.gardenerassistant.model.Action;
@@ -258,9 +259,17 @@ public class ActionsActivity extends AppCompatActivity implements AdapterView.On
 			case R.id.selectPlantsButton:
 				displayPlantsChoice();
 				return true;
+			case R.id.selectLocationButton:
+				displayLocationChoice();
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private void displayLocationChoice() {
+		Intent intent = new Intent(this, LocationChoiceActivity.class);
+		startActivity(intent);
 	}
 
 	@Override
