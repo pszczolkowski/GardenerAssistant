@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -150,6 +151,10 @@ public class ActionsListAdapter extends BaseAdapter {
 			}
 
 		}
+
+		ImageView imageView = (ImageView) view.findViewById(R.id.actionsListItemImage);
+		int drawableIdentifier = context.getResources().getIdentifier(action.getPlant().getIcon(), "drawable", context.getPackageName());
+		imageView.setImageResource(drawableIdentifier);
 
 		return view;
 	}

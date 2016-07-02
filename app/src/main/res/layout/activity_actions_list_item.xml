@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="50dp"
         android:layout_marginBottom="5dp">
 
         <TextView
@@ -44,6 +44,13 @@
             android:visibility="gone"/>
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/actionsListItemImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>
 
