@@ -11,22 +11,24 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.actions.ActionsActivity">
+        <activity android:name=".activity.actions.ActionsActivity"
+                  android:label="Prace do wykonania">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.plantschoice.PlantsChoiceActivity"
-            android:parentActivityName=".activity.actions.ActionsActivity">
+        <activity android:name=".activity.plantschoice.PlantsChoiceActivity"
+                  android:label="Wybór uprawianych roślin"
+                  android:parentActivityName=".activity.actions.ActionsActivity">
         </activity>
-        <activity
-            android:name=".activity.welcome.WelcomeActivity"
-            android:noHistory="true">
+        <activity android:name=".activity.welcome.WelcomeActivity"
+                  android:label="Pomocnik ogrodnika"
+                  android:noHistory="true">
         </activity>
         <activity android:name=".activity.locationchoice.LocationChoiceActivity"
+                  android:label="Położenie ogródka"
                   android:parentActivityName=".activity.actions.ActionsActivity">
         </activity>
     </application>
